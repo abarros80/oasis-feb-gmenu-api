@@ -1,5 +1,6 @@
 package oasis.feb.gestaomenu.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,14 +18,20 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tbl_conjunto")
-public class Conjunto {
+public class Conjunto implements Serializable{
 	
-	private long id;
+	private static final long serialVersionUID = 1L;
+	
+	
+	private Long id;
 	private String nome;
 	private boolean activo;
 	private int ordem;
@@ -42,7 +50,7 @@ public class Conjunto {
 	
 	//Log cadastro
 	private LocalDateTime dataCadastro;
-	private long  idUserCadastro;
+	private Long  idUserCadastro;
 	
 	
 	public Conjunto() {}
@@ -52,7 +60,7 @@ public class Conjunto {
 
 
 	public Conjunto(String nome, boolean activo, int ordem, Conjunto pai, TipoConjunto tipoConjunto, String desc_pt,
-			String desc_fr, String desc_ing, String fotoPath, LocalDateTime dataCadastro, long  idUserCadastro) {
+			String desc_fr, String desc_ing, String fotoPath, LocalDateTime dataCadastro, Long  idUserCadastro) {
 		super();
 		this.nome = nome;
 		this.activo = activo;
@@ -77,7 +85,7 @@ public class Conjunto {
 
 	public Conjunto(String nome, boolean activo, int ordem, Conjunto pai, TipoConjunto tipoConjunto,
 			List<Conjunto> subConjuntos, List<Item> itens, String desc_pt, String desc_fr, String desc_ing,
-			String fotoPath, LocalDateTime dataCadastro, long  idUserCadastro) {
+			String fotoPath, LocalDateTime dataCadastro, Long  idUserCadastro) {
 		super();
 		this.nome = nome;
 		this.activo = activo;
@@ -102,18 +110,22 @@ public class Conjunto {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	
 
+
 	//NOME----------------------------------------------------------------
 
-	@Column(name = "nome", nullable = false, length=100)
+	@NotNull(message = "Campo NOME obrigatorio")
+	@Size(min=3,max=100,message="NOME deve ter no máximo {max} caracteres e no minimo" + " {min} caracteres. Você digitou: "
+	+ "${validatedValue}")
+	@Column(name = "nome", nullable = false, unique=true, length=100)
 	public String getNome() {
 		return nome;
 	}
@@ -125,6 +137,9 @@ public class Conjunto {
 	
 	//DESCPT----------------------------------------------------------------
 
+	@NotNull(message = "Campo descrição em PT obrigatorio")
+	@Size(min=5,max=300,message="DescPt deve ter no máximo {max} caracteres e no minimo" + " {min} caracteres. Você digitou: "
+	+ "${validatedValue}")
 	@Column(name = "desc_pt", nullable = false, length=300)
 	public String getDescPt() {
 		return descPt;
@@ -137,6 +152,9 @@ public class Conjunto {
 
 	//DESCFR----------------------------------------------------------------
 
+	@NotNull(message = "Campo descrição em FR obrigatorio")
+	@Size(min=5,max=300,message="DescFr deve ter no máximo {max} caracteres e no minimo" + " {min} caracteres. Você digitou: "
+	+ "${validatedValue}")
 	@Column(name = "desc_fr", nullable = false, length=300)
 	public String getDescFr() {
 		return descFr;
@@ -148,13 +166,13 @@ public class Conjunto {
 
 	
 	//DESCING----------------------------------------------------------------
-
+	@NotNull(message = "Campo descrição em ING obrigatorio")
+	@Size(min=5,max=300,message="DescIng deve ter no máximo {max} caracteres e no minimo" + " {min} caracteres. Você digitou: "
+	+ "${validatedValue}")
 	@Column(name = "desc_ing", nullable = false, length=300)
 	public String getDescIng() {
 		return descIng;
 	}
-
-
 
 	public void setDescIng(String desc_ing) {
 		this.descIng = desc_ing;
@@ -162,7 +180,7 @@ public class Conjunto {
 
 
 	//ACTIVO----------------------------------------------------------------
-
+	@NotNull(message = "Campo Activo obrigatorio")
 	@Column(name = "activo", nullable = false, columnDefinition="bit(1) default 1")
 	public boolean getActivo() {
 		return activo;
@@ -174,7 +192,7 @@ public class Conjunto {
 
 
 	//ORDEM----------------------------------------------------------------
-
+	@NotNull(message = "Campo ORDEM obrigatorio")
 	@Column(name = "ordem", nullable = false)
 	public int getOrdem() {
 		return ordem;
@@ -187,9 +205,9 @@ public class Conjunto {
 
 	//PAI----------------------------------------------------------------
 
-	@JsonIgnore
+	//@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name = "conjunto_id", nullable = false)
+	@JoinColumn(name = "conjunto_id", nullable = true)
 	public Conjunto getPai() {
 		return pai;
 	}
@@ -224,9 +242,10 @@ public class Conjunto {
 
 	//TIPO CONJUNTO------------------------------------------------------------
 
-	@JsonIgnore
-	@ManyToOne
-	@JoinColumn(name = "tipo_conjunto_id", nullable = false)
+	//@JsonIgnore
+	@ManyToOne (fetch = FetchType.EAGER)
+	@JoinColumn(name = "tipo_conjunto_id", referencedColumnName="id", nullable = false, updatable = false)
+
 	public TipoConjunto getTipoConjunto() {
 		return tipoConjunto;
 	}
@@ -263,7 +282,7 @@ public class Conjunto {
 
 	//PATH FOTO------------------------------------------------------------
 
-	@Column(name = "foto_path",nullable = false)
+	@Column(name = "foto_path",nullable = true)
 	public String getFotoPath() {
 		return fotoPath;
 	}
@@ -274,7 +293,7 @@ public class Conjunto {
 	
 	
 	//DATA CADASTRO--------------------------------------------------------
-
+	@NotNull(message = "Campo DATA CADASTRO obrigatorio")
 	@Column(name = "data_cadastro",nullable = false)
 	public LocalDateTime getDataCadastro() {
 		return dataCadastro;
@@ -286,26 +305,28 @@ public class Conjunto {
 
 
 	//ID USER CADASTRO--------------------------------------------------------
-
+	@NotNull(message = "Campo USER CADASTRO obrigatorio")
 	@Column(name = "id_user_cadastro",nullable = false)
-	public long getIdUserCadastro() {
+	public Long getIdUserCadastro() {
 		return idUserCadastro;
 	}
 
-	public void setIdUserCadastro(long idUserCadastro) {
+	public void setIdUserCadastro(Long idUserCadastro) {
 		this.idUserCadastro = idUserCadastro;
 	}
 
 
 
 
+	
+
+
 	@Override
 	public String toString() {
-		return "Conjunto [id=" + id + ", nome=" + nome + ", activo=" + activo + ", ordem=" + ordem + ", pai=" + pai
-				+ ", tipoConjunto=" + tipoConjunto + ", subConjuntos=" + subConjuntos + ", itens=" + itens + ", descPt="
-				+ descPt + ", descFr=" + descFr + ", descIng=" + descIng + ", fotoPath=" + fotoPath + ", dataCadastro="
-				+ dataCadastro + ", idUserCadastro=" + idUserCadastro + "]";
+		return "Conjunto [id=" + id + ", nome=" + nome + ", activo=" + activo + ", ordem=" + ordem + "]";
 	}
+
+
 
 
 

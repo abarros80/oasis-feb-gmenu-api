@@ -1,6 +1,7 @@
 package oasis.feb.gestaomenu.model;
 
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 
@@ -17,6 +18,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import oasis.feb.gestaomenu.model.enums.UnidadeMedidaEnum;
@@ -24,14 +28,17 @@ import oasis.feb.gestaomenu.model.enums.UnidadeMedidaEnum;
 
 @Entity
 @Table(name = "tbl_item")
-public class Item {
+public class Item implements Serializable{
 	
-	private long id;
+	private static final long serialVersionUID = 1L;
+	
+	private Long id;
 	private String nome;
 	private boolean activo;
 	private int ordem;
 	private Conjunto pai;
 	private TipoItem tipoItem;
+
 	
 	//Dados especificos de um item de Menu
 	private String fotoPath;
@@ -47,7 +54,7 @@ public class Item {
 	
 	//Log cadastro
 	private LocalDateTime dataCadastro;
-	private long  idUserCadastro;
+	private Long  idUserCadastro;
 	
 	public Item() {}
 	
@@ -55,7 +62,7 @@ public class Item {
 	
 
 	public Item(String nome, boolean activo, int ordem, Conjunto pai, TipoItem tipoItem, String fotoPath, String descPt,
-			String descFr, String descIng, float preco, float quantidade, UnidadeMedidaEnum unidadeMedidaEnum, LocalDateTime dataCadastro, long  idUserCadastro) {
+			String descFr, String descIng, float preco, float quantidade, UnidadeMedidaEnum unidadeMedidaEnum, LocalDateTime dataCadastro, Long  idUserCadastro) {
 		super();
 		this.nome = nome;
 		this.activo = activo;
@@ -81,17 +88,21 @@ public class Item {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
+
 	
 
 	//NOME----------------------------------------------------------------
 
+	@NotNull(message = "Campo NOME obrigatorio")
+	@Size(min=3,max=100,message="NOME deve ter no máximo {max} caracteres e no minimo" + " {min} caracteres. Você digitou: "
+	+ "${validatedValue}")
 	@Column(name = "nome", nullable = false, length=100)
 	public String getNome() {
 		return nome;
@@ -103,7 +114,7 @@ public class Item {
 	
 
 	//ACTIVO----------------------------------------------------------------
-
+	@NotNull(message = "Campo ACTIVO obrigatorio")
 	@Column(name = "activo", nullable = false, columnDefinition="bit(1) default 1")
 	public boolean getActivo() {
 		return activo;
@@ -114,7 +125,7 @@ public class Item {
 	}
 
 	//ORDEM----------------------------------------------------------------
-
+	@NotNull(message = "Campo ORDEM obrigatorio")
 	@Column(name = "ordem", nullable = false)
 	public int getOrdem() {
 		return ordem;
@@ -126,7 +137,7 @@ public class Item {
 	
 	//PAI----------------------------------------------------------------
 
-	@JsonIgnore
+	//@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "conjunto_id", nullable = false)
 	public Conjunto getPai() {
@@ -137,10 +148,9 @@ public class Item {
 		this.pai = pai;
 	}
 	
-	
 	//TIPO ITEM------------------------------------------------------------
 
-	@JsonIgnore
+	//@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "tipo_item_id", nullable = false)
 	public TipoItem getTipoItem() {
@@ -150,7 +160,8 @@ public class Item {
 	public void setTipoItem(TipoItem tipoItem) {
 		this.tipoItem = tipoItem;
 	}
-
+	
+	
 	//PATH FOTO------------------------------------------------------------
 
 	@Column(name = "foto_path",nullable = false)
@@ -163,7 +174,9 @@ public class Item {
 	}
 
 	//DESCPT----------------------------------------------------------------
-
+	@NotNull(message = "Campo descrição em PT obrigatorio")
+	@Size(min=5,max=300,message="DescPt deve ter no máximo {max} caracteres e no minimo" + " {min} caracteres. Você digitou: "
+	+ "${validatedValue}")
 	@Column(name = "desc_pt", nullable = false, length=300)
 	public String getDescPt() {
 		return descPt;
@@ -175,7 +188,9 @@ public class Item {
 
 
 	//DESCFR----------------------------------------------------------------
-
+	@NotNull(message = "Campo descrição em FR obrigatorio")
+	@Size(min=5,max=300,message="DescFr deve ter no máximo {max} caracteres e no minimo" + " {min} caracteres. Você digitou: "
+	+ "${validatedValue}")
 	@Column(name = "desc_fr", nullable = false, length=300)
 	public String getDescFr() {
 		return descFr;
@@ -187,7 +202,9 @@ public class Item {
 
 	
 	//DESCING----------------------------------------------------------------
-
+	@NotNull(message = "Campo descrição em ING obrigatorio")
+	@Size(min=5,max=300,message="DescIng deve ter no máximo {max} caracteres e no minimo" + " {min} caracteres. Você digitou: "
+	+ "${validatedValue}")
 	@Column(name = "desc_ing", nullable = false, length=300)
 	public String getDescIng() {
 		return descIng;
@@ -198,7 +215,7 @@ public class Item {
 	}
 
 	//PRECO----------------------------------------------------------------
-
+	@NotNull(message = "Campo PRECO obrigatorio")
 	@Column(name = "preco", nullable = false)
 	public float getPreco() {
 		return preco;
@@ -209,7 +226,7 @@ public class Item {
 	}
 	
 	//QUANTIDADE------------------------------------------------------------
-
+	@NotNull(message = "Campo QUANTIDADE obrigatorio")
 	@Column(name = "quantidade", nullable = false)
 	public float getQuantidade() {
 		return quantidade;
@@ -221,6 +238,7 @@ public class Item {
 
 	
 	//UnidadeMedidaEnum------------------------------------------------------
+	@NotNull(message = "Campo UNIDD MEDIDA obrigatorio")
 	@Enumerated(EnumType.STRING)
 	@Column(name = "unidade_medida_enum", nullable = false)
 	public UnidadeMedidaEnum getUnidadeMedidaEnum() {
@@ -233,7 +251,7 @@ public class Item {
 	
 	
 	//DATA CADASTRO--------------------------------------------------------
-
+	@NotNull(message = "Campo DATA CADASTRO obrigatorio")
 	@Column(name = "data_cadastro",nullable = false)
 	public LocalDateTime getDataCadastro() {
 		return dataCadastro;
@@ -245,25 +263,23 @@ public class Item {
 
 
 	//ID USER CADASTRO--------------------------------------------------------
-
+	@NotNull(message = "Campo USER CADASTRO obrigatorio")
 	@Column(name = "id_user_cadastro",nullable = false)
-	public long getIdUserCadastro() {
+	public Long getIdUserCadastro() {
 		return idUserCadastro;
 	}
 
-	public void setIdUserCadastro(long idUserCadastro) {
+	public void setIdUserCadastro(Long idUserCadastro) {
 		this.idUserCadastro = idUserCadastro;
 	}
 	
 
 	
-
 	@Override
 	public String toString() {
-		return "Item [id=" + id + ", nome=" + nome + ", activo=" + activo + ", ordem=" + ordem + ", pai=" + pai
-				+ ", tipoItem=" + tipoItem + ", fotoPath=" + fotoPath + ", descPt=" + descPt + ", descFr=" + descFr
-				+ ", descIng=" + descIng + ", preco=" + preco + ", quantidade=" + quantidade + ", unidadeMedidaEnum="
-				+ unidadeMedidaEnum + ", dataCadastro=" + dataCadastro + ", idUserCadastro=" + idUserCadastro + "]";
+		return "Item [id=" + id + ", nome=" + nome + ", activo=" + activo + ", ordem=" + ordem + ", preco=" + preco
+				+ ", quantidade=" + quantidade + ", unidadeMedidaEnum=" + unidadeMedidaEnum + ", dataCadastro="
+				+ dataCadastro + ", idUserCadastro=" + idUserCadastro + "]";
 	}
 
 

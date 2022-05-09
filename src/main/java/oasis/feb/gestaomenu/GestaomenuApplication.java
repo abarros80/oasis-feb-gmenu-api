@@ -29,7 +29,6 @@ public class GestaomenuApplication  implements RepositoryRestConfigurer{
         config.exposeIdsFor(Conjunto.class);
         config.exposeIdsFor(TipoConjunto.class);
         config.exposeIdsFor(Item.class);
-        config.exposeIdsFor(TipoItem.class);
  
 	}
 
