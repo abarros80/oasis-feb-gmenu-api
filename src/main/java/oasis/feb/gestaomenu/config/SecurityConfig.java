@@ -18,10 +18,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+
 @Configuration
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+@EnableWebSecurity 
+@EnableGlobalMethodSecurity(prePostEnabled = true) 
+public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
 
     @Autowired
     private CustomUserDetailsService userDetailsService;
@@ -35,9 +39,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .authorizeRequests()
+                .authorizeRequests()           
                 .antMatchers(HttpMethod.GET, "/**").permitAll()
+                 //.antMatchers(HttpMethod.POST, "/**").permitAll() //Para remover depois
                 .antMatchers("/auth/**").permitAll()
+                .antMatchers("/tipoconjuntos/**").permitAll() //Para remover depois
+                .antMatchers("/conjuntos/**").permitAll() //Para remover depois
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -55,6 +62,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+    
+    
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+        .allowedMethods("*")
+        .allowedOrigins("*")
+        .allowedHeaders("*");
+        
+        /*
+            .allowedOrigins("http://localhost:4200")
+            .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "TRACE", "CONNECT")
+            .exposedHeaders("Authorization"); */
+    }
+    
+
+   
 
     //    @Override
 //    @Bean
@@ -65,4 +89,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .encode("admin")).roles("ADMIN").build();
 //        return new InMemoryUserDetailsManager(ramesh, admin);
 //    }
+    
+    
+    
 }

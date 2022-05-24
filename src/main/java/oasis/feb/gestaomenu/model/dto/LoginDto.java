@@ -39,8 +39,9 @@ public class LoginDto implements Serializable{
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(usernameOrEmail);
+		return Objects.hash(password, usernameOrEmail);
 	}
+
 
 
 	@Override
@@ -52,7 +53,7 @@ public class LoginDto implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		LoginDto other = (LoginDto) obj;
-		return Objects.equals(usernameOrEmail, other.usernameOrEmail);
+		return Objects.equals(password, other.password) && Objects.equals(usernameOrEmail, other.usernameOrEmail);
 	}
 
 

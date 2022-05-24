@@ -11,7 +11,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import oasis.feb.gestaomenu.model.Conjunto;
 
@@ -60,7 +60,7 @@ public interface ConjuntoRepository  extends JpaRepository<Conjunto, Long>{
 	
 	//DATA CADASTRO -----------------------------------------------------------------------------------------
 	
-	Page<Conjunto> findByDataCadastroBetween(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicial, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFinal, Pageable pageable);
+	Page<Conjunto> findByDataCadastroBetween(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataInicial, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataFinal, Pageable pageable);
 
 
 

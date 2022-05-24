@@ -18,11 +18,18 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.Range;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity
 @Table(name = "tbl_conjunto")
@@ -180,7 +187,7 @@ public class Conjunto implements Serializable{
 
 
 	//ACTIVO----------------------------------------------------------------
-	@NotNull(message = "Campo Activo obrigatorio")
+	@NotNull(message = "Campo ACTIVO obrigatorio")
 	@Column(name = "activo", nullable = false, columnDefinition="bit(1) default 1")
 	public boolean getActivo() {
 		return activo;
@@ -193,6 +200,7 @@ public class Conjunto implements Serializable{
 
 	//ORDEM----------------------------------------------------------------
 	@NotNull(message = "Campo ORDEM obrigatorio")
+	@Digits(integer = 3, fraction = 0,message = "Campo ORDEM obrigatorio")
 	@Column(name = "ordem", nullable = false)
 	public int getOrdem() {
 		return ordem;
@@ -243,9 +251,9 @@ public class Conjunto implements Serializable{
 	//TIPO CONJUNTO------------------------------------------------------------
 
 	//@JsonIgnore
+	@NotNull(message = "TIPO CONJUNTO obrigatorio")
 	@ManyToOne (fetch = FetchType.EAGER)
 	@JoinColumn(name = "tipo_conjunto_id", referencedColumnName="id", nullable = false, updatable = false)
-
 	public TipoConjunto getTipoConjunto() {
 		return tipoConjunto;
 	}
@@ -281,8 +289,8 @@ public class Conjunto implements Serializable{
 	
 
 	//PATH FOTO------------------------------------------------------------
-
-	@Column(name = "foto_path",nullable = true)
+	@Size(max=300,message="PATH FOTO deve ter no máximo {max} caracteres. Você digitou: " + "${validatedValue}")
+	@Column(name = "foto_path",nullable = true, length=300)
 	public String getFotoPath() {
 		return fotoPath;
 	}
@@ -293,6 +301,8 @@ public class Conjunto implements Serializable{
 	
 	
 	//DATA CADASTRO--------------------------------------------------------
+	
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@NotNull(message = "Campo DATA CADASTRO obrigatorio")
 	@Column(name = "data_cadastro",nullable = false)
 	public LocalDateTime getDataCadastro() {
@@ -316,18 +326,10 @@ public class Conjunto implements Serializable{
 	}
 
 
-
-
-	
-
-
 	@Override
 	public String toString() {
 		return "Conjunto [id=" + id + ", nome=" + nome + ", activo=" + activo + ", ordem=" + ordem + "]";
 	}
-
-
-
 
 
 	@Override

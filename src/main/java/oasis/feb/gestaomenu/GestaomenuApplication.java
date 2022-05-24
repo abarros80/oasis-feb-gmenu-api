@@ -8,10 +8,13 @@ import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+
 
 import oasis.feb.gestaomenu.model.*;
 
 @SpringBootApplication
+@EnableJpaAuditing // por causa de @CreatedDate
 public class GestaomenuApplication  implements RepositoryRestConfigurer{
 
 	public static void main(String[] args) {

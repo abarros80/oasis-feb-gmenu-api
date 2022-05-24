@@ -85,7 +85,7 @@ public class TipoItem implements Serializable{
 	}
 
 	//ACTIVO----------------------------------------------------------------
-	@NotNull(message = "Campo Activo obrigatorio")
+	@NotNull(message = "Campo ACTIVO obrigatorio")
 	@Column(name = "activo", nullable = false, columnDefinition="bit(1) default 1")
 	public boolean getActivo() {
 		return activo;

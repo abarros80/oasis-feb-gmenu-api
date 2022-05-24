@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import oasis.feb.gestaomenu.model.TipoConjunto;
 
 @CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
 @RepositoryRestResource(collectionResourceRel = "tipoconjuntos", path = "tipoconjuntos")
 public interface TipoConjuntoRepository extends JpaRepository<TipoConjunto, Long>{
 	

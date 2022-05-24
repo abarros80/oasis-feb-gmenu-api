@@ -2,6 +2,7 @@ package oasis.feb.gestaomenu.service;
 
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -35,8 +36,10 @@ public class ConjuntoService {
 	
 	public Conjunto update(Long id, ConjuntoDTO objDto)  throws NewResourceNotFoundException {
 		Conjunto obj = findById(id);
+		//copia de objDto para obj excluindo id
+		BeanUtils.copyProperties(objDto, obj, "id");
 		
-		obj.setActivo(objDto.getActivo());
+		//obj.setActivo(objDto.getActivo());
 		//Fazer para mais atributos
 		//Fazer para mais atributos
 		//Fazer para mais atributos

@@ -138,6 +138,7 @@ public class Item implements Serializable{
 	//PAI----------------------------------------------------------------
 
 	//@JsonIgnore
+	@NotNull(message = "Campo PAI obrigatorio")
 	@ManyToOne
 	@JoinColumn(name = "conjunto_id", nullable = false)
 	public Conjunto getPai() {
@@ -151,6 +152,7 @@ public class Item implements Serializable{
 	//TIPO ITEM------------------------------------------------------------
 
 	//@JsonIgnore
+	@NotNull(message = "Campo TIPO ITEM obrigatorio")
 	@ManyToOne
 	@JoinColumn(name = "tipo_item_id", nullable = false)
 	public TipoItem getTipoItem() {
@@ -163,8 +165,9 @@ public class Item implements Serializable{
 	
 	
 	//PATH FOTO------------------------------------------------------------
-
-	@Column(name = "foto_path",nullable = false)
+	
+	@Size(max=300,message="PATH FOTO deve ter no máximo {max} caracteres. Você digitou: " + "${validatedValue}")
+	@Column(name = "foto_path",nullable = true, length=300)
 	public String getFotoPath() {
 		return fotoPath;
 	}

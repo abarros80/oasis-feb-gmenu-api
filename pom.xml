@@ -72,6 +72,13 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+        
+        <!-- Para uso do metodo ExceptionUtils.getRootCauseMessage(ex) na classe GlobalExceptionHandler -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.4</version>
+        </dependency>
 				
 	</dependencies>
 

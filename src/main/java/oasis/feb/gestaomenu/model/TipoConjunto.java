@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Objects;
 
 
-
+import org.springframework.data.annotation.CreatedDate;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,14 +16,14 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+
 import javax.persistence.OneToMany;
 
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 
 @Entity
@@ -97,7 +97,7 @@ public class TipoConjunto implements Serializable{
 
 
 	//ACTIVO----------------------------------------------------------------
-	@NotNull(message = "Campo Activo obrigatorio")
+	@NotNull(message = "Campo ACTIVO obrigatorio")
 	@Column(name = "activo", nullable = false, columnDefinition="bit(1) default 1")
 	public boolean getActivo() {
 		return activo;
@@ -131,6 +131,7 @@ public class TipoConjunto implements Serializable{
 
 	//DATA CADASTRO--------------------------------------------------------
 	@NotNull(message = "Campo DATA CADASTRO obrigatorio")
+	@CreatedDate
 	@Column(name = "data_cadastro",nullable = false)
 	public LocalDateTime getDataCadastro() {
 		return dataCadastro;
