@@ -27,6 +27,10 @@ public interface TipoConjuntoRepository extends JpaRepository<TipoConjunto, Long
 	
 	Page<TipoConjunto>  findByNomeContainingIgnoreCaseAndActivo(String nome, boolean activo, Pageable pageable);
 	
+	Page<TipoConjunto>  findByNomeContainingIgnoreCaseAndActivoOrderByNome(String nome, boolean activo, Pageable pageable);
+	
+	Page<TipoConjunto>  findByActivoOrderByNome(boolean activo, Pageable pageable);
+	
 	Boolean existsByNome(String nome);
 	
 	//DATA CADASTRO -----------------------------------------------------------------------------------------
