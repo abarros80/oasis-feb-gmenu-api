@@ -10,7 +10,6 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-import oasis.feb.gestaomenu.model.Conjunto;
 import oasis.feb.gestaomenu.model.Item;
 
 @CrossOrigin(origins = "*")
@@ -18,7 +17,7 @@ import oasis.feb.gestaomenu.model.Item;
 public interface ItemRepository extends JpaRepository<Item, Long> {
 	
 	//NOME -----------------------------------------------------------------------------------------
-	
+	/*
 	Optional<Item> findByNomeOrderByNome(String nome);
 
 	Optional<Item> findByNomeIgnoreCaseOrderByNome(String nome);	
@@ -43,7 +42,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 
 	Page<Item> findByPaiNomeAndActivo(String nome, boolean activo, Pageable pageable); 
 	
-	
+	*/
 
 	//DESC PT -----------------------------------------------------------------------------------------
 	
@@ -72,7 +71,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 	
 	//DATA CADASTRO -----------------------------------------------------------------------------------------
 	
-	Page<Item> findByDataCadastroBetween(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicial, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFinal, Pageable pageable);
+	//Page<Item> findByLogDataCriacaoBetween(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicial, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFinal, Pageable pageable);
 
 
 

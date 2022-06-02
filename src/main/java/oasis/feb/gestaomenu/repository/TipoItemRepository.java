@@ -31,7 +31,7 @@ public interface TipoItemRepository extends JpaRepository<TipoItem, Long> {
 	
 	//DATA CADASTRO -----------------------------------------------------------------------------------------
 	
-	Page<TipoItem> findByDataCadastroBetween(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicial, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFinal, Pageable pageable);
+	//Page<TipoItem> findByDataCadastroBetween(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicial, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFinal, Pageable pageable);
 
 
 

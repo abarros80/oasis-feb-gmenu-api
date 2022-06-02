@@ -29,8 +29,7 @@ public class GestaomenuApplication  implements RepositoryRestConfigurer{
 	
 	@Override
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {
-        config.exposeIdsFor(Conjunto.class);
-        config.exposeIdsFor(TipoConjunto.class);
+
         config.exposeIdsFor(Item.class);
  
 	}

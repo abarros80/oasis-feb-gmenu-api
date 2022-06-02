@@ -3,12 +3,12 @@ package oasis.feb.gestaomenu.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-
-
+import java.util.List;
 import java.util.Objects;
 
-
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -17,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -33,11 +34,13 @@ public class Item implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
-	private String nome;
+    private String nomePt;
+    private String nomeIng;
+    private String nomeFr;
 	private boolean activo;
-	private int ordem;
-	private Conjunto pai;
 	private TipoItem tipoItem;
+	
+	private Hotel hotel;
 
 	
 	//Dados especificos de um item de Menu
@@ -52,39 +55,16 @@ public class Item implements Serializable{
 	
 	private UnidadeMedidaEnum unidadeMedidaEnum;
 	
-	//Log cadastro
-	private LocalDateTime dataCadastro;
-	private Long  idUserCadastro;
+    @Embedded
+    private Log log;
+	
+	private List<ItemCardapio> itemCardapio;
+	
+	
 	
 	public Item() {}
 	
-	
-	
-
-	public Item(String nome, boolean activo, int ordem, Conjunto pai, TipoItem tipoItem, String fotoPath, String descPt,
-			String descFr, String descIng, float preco, float quantidade, UnidadeMedidaEnum unidadeMedidaEnum, LocalDateTime dataCadastro, Long  idUserCadastro) {
-		super();
-		this.nome = nome;
-		this.activo = activo;
-		this.ordem = ordem;
-		this.pai = pai;
-		this.tipoItem = tipoItem;
-		this.fotoPath = fotoPath;
-		this.descPt = descPt;
-		this.descFr = descFr;
-		this.descIng = descIng;
-		this.preco = preco;
-		this.quantidade = quantidade;
-		this.unidadeMedidaEnum = unidadeMedidaEnum;
-		
-		this.dataCadastro = dataCadastro;
-		this.idUserCadastro = idUserCadastro;
-	}
-
-
-
-	//ID-----------------------------------------------------------------
-	
+	//ID-----------------------------------------------------------------	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -98,18 +78,41 @@ public class Item implements Serializable{
 
 	
 
-	//NOME----------------------------------------------------------------
-
-	@NotNull(message = "Campo NOME obrigatorio")
-	@Size(min=3,max=100,message="NOME deve ter no máximo {max} caracteres e no minimo" + " {min} caracteres. Você digitou: "
+	//NOMEPT----------------------------------------------------------------		
+	@NotNull(message = "Campo Nome em PT obrigatorio")
+	@Size(min=3,max=40,message="Nome em PT deve ter no máximo {max} caracteres e no minimo" + " {min} caracteres. Você digitou: "
 	+ "${validatedValue}")
-	@Column(name = "nome", nullable = false, length=100)
-	public String getNome() {
-		return nome;
+	@Column(name = "nome_pt", nullable = false, length=40)
+	public String getNomePt() {
+		return nomePt;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setNomePt(String nomePt) {
+		this.nomePt = nomePt;
+	}
+
+	//NOMEING----------------------------------------------------------------		
+	@Size(max=40,message="Nome em ING deve ter no máximo {max} caracteres. Você digitou: "
+	+ "${validatedValue}")
+	@Column(name = "nome_ing", nullable = true, length=40)
+	public String getNomeIng() {
+		return nomeIng;
+	}
+
+	public void setNomeIng(String nomeIng) {
+		this.nomeIng = nomeIng;
+	}
+
+	//NOMEFR----------------------------------------------------------------		
+	@Size(max=40,message="Nome em FR deve ter no máximo {max} caracteres. Você digitou: "
+	+ "${validatedValue}")
+	@Column(name = "nome_fr", nullable = true, length=40)
+	public String getNomeFr() {
+		return nomeFr;
+	}
+
+	public void setNomeFr(String nomeFr) {
+		this.nomeFr = nomeFr;
 	}
 	
 
@@ -124,31 +127,7 @@ public class Item implements Serializable{
 		this.activo = activo;
 	}
 
-	//ORDEM----------------------------------------------------------------
-	@NotNull(message = "Campo ORDEM obrigatorio")
-	@Column(name = "ordem", nullable = false)
-	public int getOrdem() {
-		return ordem;
-	}
 
-	public void setOrdem(int ordem) {
-		this.ordem = ordem;
-	}
-	
-	//PAI----------------------------------------------------------------
-
-	//@JsonIgnore
-	@NotNull(message = "Campo PAI obrigatorio")
-	@ManyToOne
-	@JoinColumn(name = "conjunto_id", nullable = false)
-	public Conjunto getPai() {
-		return pai;
-	}
-
-	public void setPai(Conjunto pai) {
-		this.pai = pai;
-	}
-	
 	//TIPO ITEM------------------------------------------------------------
 
 	//@JsonIgnore
@@ -177,10 +156,9 @@ public class Item implements Serializable{
 	}
 
 	//DESCPT----------------------------------------------------------------
-	@NotNull(message = "Campo descrição em PT obrigatorio")
-	@Size(min=5,max=300,message="DescPt deve ter no máximo {max} caracteres e no minimo" + " {min} caracteres. Você digitou: "
+	@Size(max=300,message="DescPt deve ter no máximo {max} caracteres. Você digitou: "
 	+ "${validatedValue}")
-	@Column(name = "desc_pt", nullable = false, length=300)
+	@Column(name = "desc_pt", nullable = true, length=300)
 	public String getDescPt() {
 		return descPt;
 	}
@@ -191,10 +169,9 @@ public class Item implements Serializable{
 
 
 	//DESCFR----------------------------------------------------------------
-	@NotNull(message = "Campo descrição em FR obrigatorio")
-	@Size(min=5,max=300,message="DescFr deve ter no máximo {max} caracteres e no minimo" + " {min} caracteres. Você digitou: "
+	@Size(max=300,message="DescFr deve ter no máximo {max} caracteres. Você digitou: "
 	+ "${validatedValue}")
-	@Column(name = "desc_fr", nullable = false, length=300)
+	@Column(name = "desc_fr", nullable = true, length=300)
 	public String getDescFr() {
 		return descFr;
 	}
@@ -205,10 +182,9 @@ public class Item implements Serializable{
 
 	
 	//DESCING----------------------------------------------------------------
-	@NotNull(message = "Campo descrição em ING obrigatorio")
-	@Size(min=5,max=300,message="DescIng deve ter no máximo {max} caracteres e no minimo" + " {min} caracteres. Você digitou: "
+	@Size(max=300,message="DescIng deve ter no máximo {max} caracteres. Você digitou: "
 	+ "${validatedValue}")
-	@Column(name = "desc_ing", nullable = false, length=300)
+	@Column(name = "desc_ing", nullable = true, length=300)
 	public String getDescIng() {
 		return descIng;
 	}
@@ -253,36 +229,40 @@ public class Item implements Serializable{
 	}
 	
 	
-	//DATA CADASTRO--------------------------------------------------------
-	@NotNull(message = "Campo DATA CADASTRO obrigatorio")
-	@Column(name = "data_cadastro",nullable = false)
-	public LocalDateTime getDataCadastro() {
-		return dataCadastro;
+	//LOG-----------------------------------------------------------------------
+	public Log getLog() {
+		return log;
 	}
 
-	public void setDataCadastro(LocalDateTime dataCadastro) {
-		this.dataCadastro = dataCadastro;
+	public void setLog(Log log) {
+		this.log = log;
+	}
+	//HOTEL-------------------------------------------------------
+	@ManyToOne
+	@JoinColumn(name = "hotel_id", nullable = false)
+	public Hotel getHotel() {
+		return hotel;
 	}
 
-
-	//ID USER CADASTRO--------------------------------------------------------
-	@NotNull(message = "Campo USER CADASTRO obrigatorio")
-	@Column(name = "id_user_cadastro",nullable = false)
-	public Long getIdUserCadastro() {
-		return idUserCadastro;
+	public void setHotel(Hotel hotel) {
+		this.hotel = hotel;
+	}
+	
+	@OneToMany(mappedBy = "item",cascade = CascadeType.ALL)
+	public List<ItemCardapio> getItemCardapio() {
+		return itemCardapio;
 	}
 
-	public void setIdUserCadastro(Long idUserCadastro) {
-		this.idUserCadastro = idUserCadastro;
+	public void setItemCardapio(List<ItemCardapio> itemCardapio) {
+		this.itemCardapio = itemCardapio;
 	}
 	
 
 	
 	@Override
 	public String toString() {
-		return "Item [id=" + id + ", nome=" + nome + ", activo=" + activo + ", ordem=" + ordem + ", preco=" + preco
-				+ ", quantidade=" + quantidade + ", unidadeMedidaEnum=" + unidadeMedidaEnum + ", dataCadastro="
-				+ dataCadastro + ", idUserCadastro=" + idUserCadastro + "]";
+		return "Item [id=" + id + ", nome=" + nomePt + ", activo=" + activo + ", preco=" + preco
+				+ ", quantidade=" + quantidade + ", unidadeMedidaEnum=" + unidadeMedidaEnum + "]";
 	}
 
 

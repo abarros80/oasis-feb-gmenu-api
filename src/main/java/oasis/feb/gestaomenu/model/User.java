@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -23,11 +24,19 @@ public class User  implements Serializable{
     private String email;
     private String password;
 
+    //UNIDERECIONAL
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "user_roles",
         joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Set<Role> roles;
+
+    //BIDERECIONAL
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_hotels",
+        joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "hotel_id", referencedColumnName = "id"))
+    private List<Hotel> hotels;
 
 	public long getId() {
 		return id;
@@ -76,6 +85,16 @@ public class User  implements Serializable{
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
+	
+
+	public List<Hotel> getHotels() {
+		return hotels;
+	}
+
+	public void setHotels(List<Hotel> hotels) {
+		this.hotels = hotels;
+	}
+	
 
 	@Override
 	public int hashCode() {

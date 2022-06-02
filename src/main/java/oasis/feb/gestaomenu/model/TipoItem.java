@@ -9,6 +9,7 @@ import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,34 +32,10 @@ public class TipoItem implements Serializable{
 	
 	private List<Item> itens;
 	
-	//Log cadastro
-	private LocalDateTime dataCadastro;
-	private Long  idUserCadastro;
+	@Embedded
+    private Log log;
 	
 	public TipoItem() {}
-
-	
-	public TipoItem(String nome, boolean activo, LocalDateTime dataCadastro, Long  idUserCadastro) {
-		super();
-		this.nome = nome;
-		this.activo = activo;
-		this.itens = new ArrayList<Item>();
-		
-		this.dataCadastro = dataCadastro;
-		this.idUserCadastro = idUserCadastro;
-	}
-
-	public TipoItem(String nome, boolean activo, List<Item> itens, LocalDateTime dataCadastro, Long  idUserCadastro) {
-		super();
-		this.nome = nome;
-		this.activo = activo;
-		this.itens = itens;
-		
-		this.dataCadastro = dataCadastro;
-		this.idUserCadastro = idUserCadastro;
-	}
-
-
 
 
 	@Id
@@ -117,34 +94,19 @@ public class TipoItem implements Serializable{
 		}
 	}
 	
-	//DATA CADASTRO--------------------------------------------------------
-	@NotNull(message = "Campo DATA CADASTRO obrigatorio")
-	@Column(name = "data_cadastro",nullable = false)
-	public LocalDateTime getDataCadastro() {
-		return dataCadastro;
+	//LOG-----------------------------------------------------------------------
+	public Log getLog() {
+		return log;
 	}
 
-	public void setDataCadastro(LocalDateTime dataCadastro) {
-		this.dataCadastro = dataCadastro;
+	public void setLog(Log log) {
+		this.log = log;
 	}
 
-
-	//ID USER CADASTRO--------------------------------------------------------
-	@NotNull(message = "Campo USER CADASTRO obrigatorio")
-	@Column(name = "id_user_cadastro",nullable = false)
-	public Long getIdUserCadastro() {
-		return idUserCadastro;
-	}
-
-	public void setIdUserCadastro(Long idUserCadastro) {
-		this.idUserCadastro = idUserCadastro;
-	}
-	
 	
 	@Override
 	public String toString() {
-		return "TipoItem [id=" + id + ", nome=" + nome + ", activo=" + activo + ", dataCadastro=" + dataCadastro
-				+ ", idUserCadastro=" + idUserCadastro + "]";
+		return "TipoItem [id=" + id + ", nome=" + nome + ", activo=" + activo + "]";
 	}
 
 
