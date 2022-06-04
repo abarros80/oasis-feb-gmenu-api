@@ -1,6 +1,7 @@
 package oasis.feb.gestaomenu.repository;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -15,6 +16,8 @@ import oasis.feb.gestaomenu.model.Item;
 @CrossOrigin(origins = "*")
 @RepositoryRestResource(collectionResourceRel = "itens", path = "itens")
 public interface ItemRepository extends JpaRepository<Item, Long> {
+	
+	List<Item> findByActivoAndItemCardapioCardapioIdAndItemCardapioCardapioActivo(boolean itactivo, Long cid, boolean cactivo);
 	
 	//NOME -----------------------------------------------------------------------------------------
 	/*
