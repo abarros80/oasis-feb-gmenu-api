@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
@@ -16,6 +17,24 @@ import oasis.feb.gestaomenu.model.Item;
 @CrossOrigin(origins = "*")
 @RepositoryRestResource(collectionResourceRel = "itens", path = "itens")
 public interface ItemRepository extends JpaRepository<Item, Long> {
+	
+	
+	// delete operation isn't exposed via rest
+    @Override
+    @RestResource(exported = false)
+    void deleteById(Long id);
+ 
+    @Override
+    @RestResource(exported = false)
+    void delete(Item item);
+ 
+    // We don't expose this method via rest here as we want to extend the logic.
+    // It is exposed in ItemController.
+    @Override
+    @RestResource(exported=false)
+    Item save(Item item);
+	
+	
 	
 	List<Item> findByActivoAndItemCardapioCardapioIdAndItemCardapioCardapioActivo(boolean itactivo, Long cid, boolean cactivo);
 	

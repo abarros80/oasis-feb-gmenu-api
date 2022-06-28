@@ -2,6 +2,7 @@ package oasis.feb.gestaomenu.repository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -18,6 +19,14 @@ public interface HotelRepository extends JpaRepository<Hotel, Long> {
 	
 	Optional<Hotel> findById(long id);
 	
+	Page<Hotel>  findByActivoOrderByNome(boolean activo, Pageable pageable);
+	
+	List<Hotel>  findByActivoOrderByNome(boolean activo);
+	
+	
+	
 	Page<Hotel>  findByNomeContainingIgnoreCaseAndActivo(String nome, boolean activo, Pageable pageable);
+	
+	List<Hotel>  findByNomeContainingIgnoreCaseAndActivo(String nome, boolean activo);
 
 }

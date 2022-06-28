@@ -82,7 +82,7 @@ public class Item implements Serializable{
 	@NotNull(message = "Campo Nome em PT obrigatorio")
 	@Size(min=3,max=40,message="Nome em PT deve ter no máximo {max} caracteres e no minimo" + " {min} caracteres. Você digitou: "
 	+ "${validatedValue}")
-	@Column(name = "nome_pt", nullable = false, length=40)
+	@Column(name = "nome_pt", unique = true, nullable = false, length=40)
 	public String getNomePt() {
 		return nomePt;
 	}
@@ -94,7 +94,7 @@ public class Item implements Serializable{
 	//NOMEING----------------------------------------------------------------		
 	@Size(max=40,message="Nome em ING deve ter no máximo {max} caracteres. Você digitou: "
 	+ "${validatedValue}")
-	@Column(name = "nome_ing", nullable = true, length=40)
+	@Column(name = "nome_ing", unique = true, nullable = true, length=40)
 	public String getNomeIng() {
 		return nomeIng;
 	}
@@ -106,7 +106,7 @@ public class Item implements Serializable{
 	//NOMEFR----------------------------------------------------------------		
 	@Size(max=40,message="Nome em FR deve ter no máximo {max} caracteres. Você digitou: "
 	+ "${validatedValue}")
-	@Column(name = "nome_fr", nullable = true, length=40)
+	@Column(name = "nome_fr", unique = true, nullable = true, length=40)
 	public String getNomeFr() {
 		return nomeFr;
 	}

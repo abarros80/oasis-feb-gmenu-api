@@ -5,7 +5,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import javax.annotation.PostConstruct;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
+import org.springframework.data.rest.core.mapping.ExposureConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
@@ -28,15 +30,24 @@ public class GestaomenuApplication  implements RepositoryRestConfigurer{
     }
 	
 	@Override
-    public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {
+    public void configureRepositoryRestConfiguration(RepositoryRestConfiguration restconfig, CorsRegistry cors) {
 
-        config.exposeIdsFor(Hotel.class);
-        config.exposeIdsFor(Restaurante.class);
-        config.exposeIdsFor(Cardapio.class);
-        config.exposeIdsFor(Item.class);
-        config.exposeIdsFor(TipoItem.class);
-        config.exposeIdsFor(User.class);
-        config.exposeIdsFor(Role.class);
+		//Expoem ID
+		restconfig.exposeIdsFor(Hotel.class);
+		restconfig.exposeIdsFor(Restaurante.class);
+		restconfig.exposeIdsFor(Cardapio.class);
+		restconfig.exposeIdsFor(Item.class);
+		restconfig.exposeIdsFor(TipoItem.class);
+		restconfig.exposeIdsFor(User.class);
+		restconfig.exposeIdsFor(Role.class);
+		
+		/*
+		ExposureConfiguration config = restconfig.getExposureConfiguration();
+        config.forDomainType(Item.class).withItemExposure((metadata, httpMethods) ->
+          httpMethods.disable(HttpMethod.POST));
+          */
+		
+		
  
 	}
 

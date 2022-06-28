@@ -4,7 +4,12 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -19,8 +24,9 @@ public class Log {
   	
   //DATA CRIACAO--------------------------------------------------------	
   	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  	@NotNull(message = "Campo DATA CRIACAO obrigatorio")
-  	@Column(name = "data_criacao",nullable = false)
+  	//@NotNull(message = "Campo DATA CRIACAO obrigatorio")
+  	@Column(name = "data_criacao")
+  	//@CreationTimestamp
   	public LocalDateTime getDataCriacao() {
   		return dataCriacao;
   	}
@@ -31,8 +37,9 @@ public class Log {
 
   	//DATA ALTERACAO--------------------------------------------------------
   	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  	@NotNull(message = "Campo DATA ALTERACAO obrigatorio")
-  	@Column(name = "data_alteracao",nullable = false)
+  	//@NotNull(message = "Campo DATA ALTERACAO obrigatorio")
+  	@Column(name = "data_alteracao")
+  	//@UpdateTimestamp
   	public LocalDateTime getDataAlteracao() {
   		return dataAlteracao;
   	}
@@ -63,6 +70,5 @@ public class Log {
   		this.idUserAlteracao = idUserAlteracao;
   	}
   	
-
-
+  	
 }
