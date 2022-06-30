@@ -39,6 +39,11 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 	List<Item> findByActivoAndItemCardapioCardapioIdAndItemCardapioCardapioActivo(boolean itactivo, Long cid, boolean cactivo);
 	
 	//NOME -----------------------------------------------------------------------------------------
+	
+	Page<Item> findByNomePtContainingIgnoreCaseAndActivoOrderByNomePt(String nome, boolean activo, Pageable pageable);
+	
+	Page<Item> findByActivoOrderByNomePt(boolean activo, Pageable pageable);
+	
 	/*
 	Optional<Item> findByNomeOrderByNome(String nome);
 

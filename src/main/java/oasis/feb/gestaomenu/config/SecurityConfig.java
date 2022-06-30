@@ -45,11 +45,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers("/roles/**").permitAll() //Para remover depois
                 .antMatchers("/users/**").permitAll() //Para remover depois
-                .antMatchers("/hotels/**").permitAll() //Para remover depois
+                .antMatchers("/hoteis/**").permitAll() //Para remover depois
                 .antMatchers("/cardapios/**").permitAll() //Para remover depois
                 .antMatchers("/restaurantes/**").permitAll() //Para remover depois
                 .antMatchers("/restcardapios/**").permitAll() //Para remover depois
                 .antMatchers("/itens/**").permitAll() //Para remover depois
+                .antMatchers("/tipoitens/**").permitAll() //Para remover depois
+                
                 .antMatchers("/itemcardapios/**").permitAll() //Para remover depois
                 .anyRequest()
                 .authenticated()

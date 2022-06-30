@@ -14,18 +14,20 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import oasis.feb.gestaomenu.model.Hotel;
 
 @CrossOrigin(origins = "*")
-@RepositoryRestResource(collectionResourceRel = "hotels", path = "hotels")
+@RepositoryRestResource(collectionResourceRel = "hoteis", path = "hoteis")
 public interface HotelRepository extends JpaRepository<Hotel, Long> {
 	
 	Optional<Hotel> findById(long id);
 	
-	Page<Hotel>  findByActivoOrderByNome(boolean activo, Pageable pageable);
+	//Page<Hotel>  findByActivoOrderByNome(boolean activo, Pageable pageable);
 	
 	List<Hotel>  findByActivoOrderByNome(boolean activo);
 	
+	List<Hotel>  findByActivoAndUsersIdOrderByNome(boolean activo, Long id);
 	
 	
-	Page<Hotel>  findByNomeContainingIgnoreCaseAndActivo(String nome, boolean activo, Pageable pageable);
+	
+	//Page<Hotel>  findByNomeContainingIgnoreCaseAndActivo(String nome, boolean activo, Pageable pageable);
 	
 	List<Hotel>  findByNomeContainingIgnoreCaseAndActivo(String nome, boolean activo);
 
