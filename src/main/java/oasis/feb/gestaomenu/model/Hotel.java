@@ -30,7 +30,7 @@ public class Hotel implements Serializable{
 	private static final long serialVersionUID = 1L;
 
     
-    private long id;
+    private Long id;
     private String nome;
     private String telefone;
     private String email;
@@ -56,11 +56,11 @@ public class Hotel implements Serializable{
   	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	

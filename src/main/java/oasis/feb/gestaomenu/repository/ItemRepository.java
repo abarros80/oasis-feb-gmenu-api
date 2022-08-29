@@ -19,7 +19,8 @@ import oasis.feb.gestaomenu.model.Item;
 public interface ItemRepository extends JpaRepository<Item, Long> {
 	
 	
-	// delete operation isn't exposed via rest
+	// delete operations aren't exposed via rest
+	// They are exposed in Controller.
     @Override
     @RestResource(exported = false)
     void deleteById(Long id);
@@ -29,7 +30,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     void delete(Item item);
  
     // We don't expose this method via rest here as we want to extend the logic.
-    // It is exposed in ItemController.
+    // It is exposed in Controller.
     @Override
     @RestResource(exported=false)
     Item save(Item item);

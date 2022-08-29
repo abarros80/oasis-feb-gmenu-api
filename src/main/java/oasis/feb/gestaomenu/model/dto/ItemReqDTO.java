@@ -13,6 +13,8 @@ public class ItemReqDTO implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
+	//DADOS DE ENTRADA, VINDOS DO FORMULARIO, FRONTOFFICE (Ñ deveria ter o ID)
+	
 	private Long id;
 	
 	//@JsonIgnore
