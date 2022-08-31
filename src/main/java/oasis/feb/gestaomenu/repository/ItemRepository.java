@@ -34,43 +34,35 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     @Override
     @RestResource(exported=false)
     Item save(Item item);
+    
+    
+    //ID
+    
+    Optional<Item> findById(long id);
+    
+    //ACTIVO
+    
+    Page<Item> findByActivo(boolean activo, Pageable pageable);
+    
+    Page<Item> findByActivoOrderByNomePt(boolean activo, Pageable pageable);
 	
 	
 	
-	List<Item> findByActivoAndItemCardapioCardapioIdAndItemCardapioCardapioActivo(boolean itactivo, Long cid, boolean cactivo);
 	
-	//NOME -----------------------------------------------------------------------------------------
+	
+	//NOME PT -----------------------------------------------------------------------------------------
 	
 	Page<Item> findByNomePtContainingIgnoreCaseAndActivoOrderByNomePt(String nome, boolean activo, Pageable pageable);
 	
-	Page<Item> findByActivoOrderByNomePt(boolean activo, Pageable pageable);
+	//NOME ING -----------------------------------------------------------------------------------------
 	
-	/*
-	Optional<Item> findByNomeOrderByNome(String nome);
-
-	Optional<Item> findByNomeIgnoreCaseOrderByNome(String nome);	
+	Page<Item> findByNomeIngContainingIgnoreCaseAndActivoOrderByNomeIng(String nome, boolean activo, Pageable pageable);
 	
-	Optional<Item> findByNomeIgnoreCaseAndActivoOrderByNome(String nome, boolean activo);
+	//NOME FR -----------------------------------------------------------------------------------------
 	
-	Page<Item>  findByNomeContainingIgnoreCaseAndActivo(String nome, boolean activo, Pageable pageable);
+	Page<Item> findByNomeFrContainingIgnoreCaseAndActivoOrderByNomeFr(String nome, boolean activo, Pageable pageable);
 	
-	Boolean existsByNome(String nome);
 	
-	//PAI  -----------------------------------------------------------------------------------------
-	
-	long countByPaiId(Long id); 
-	
-	Page<Item> findByPaiId(Long id, Pageable pageable); 
-
-	Page<Item> findByPaiIdAndActivo(Long id,  boolean activo, Pageable pageable);
-	
-	long countByPaiNome(Long id); 
-	
-	Page<Item> findByPaiNome(String nome, Pageable pageable); 
-
-	Page<Item> findByPaiNomeAndActivo(String nome, boolean activo, Pageable pageable); 
-	
-	*/
 
 	//DESC PT -----------------------------------------------------------------------------------------
 	
@@ -84,6 +76,9 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 	
 	Page<Item>  findByDescFrContainingIgnoreCaseAndActivo(String descFr, boolean activo, Pageable pageable);
 	
+	
+	//RELAÇÔES ==========================
+	
 	//TIPO ITEM -----------------------------------------------------------------------------------------
 
 	long countByTipoItemId(long id);
@@ -95,6 +90,10 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 	Page<Item>  findByTipoItemIdAndActivo(Long id, boolean activo, Pageable pageable);
 	
 	Page<Item>  findByTipoItemNomeContainingIgnoreCaseAndActivo(String nome, boolean activo, Pageable pageable);
+	
+	// ITEM CARDAPIO-----------------------------------------------------------------------------------------
+	
+	List<Item> findByActivoAndItemCardapioCardapioIdAndItemCardapioCardapioActivo(boolean itactivo, Long cid, boolean cactivo);
 	
 	
 	//DATA CADASTRO -----------------------------------------------------------------------------------------

@@ -9,10 +9,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-import oasis.feb.gestaomenu.model.Hotel;
 import oasis.feb.gestaomenu.model.TipoItem;
 
 @CrossOrigin(origins = "*")
@@ -20,19 +20,41 @@ import oasis.feb.gestaomenu.model.TipoItem;
 public interface TipoItemRepository extends JpaRepository<TipoItem, Long> {
 	
 	
+	// delete operations aren't exposed via rest
+	// They are exposed in Controller.
+    @Override
+    @RestResource(exported = false)
+    void deleteById(Long id);
+ 
+    @Override
+    @RestResource(exported = false)
+    void delete(TipoItem titem);
+ 
+    // We don't expose this method via rest here as we want to extend the logic.
+    // It is exposed in Controller.
+    @Override
+    @RestResource(exported=false)
+    TipoItem save(TipoItem titem);
+    
+    
+	
+	//ID
+	
 	Optional<TipoItem> findById(long id);
 	
-	//Page<TipoItem>  findByActivoOrderByNome(boolean activo, Pageable pageable);
+	//ACTIVO
 	
 	List<TipoItem>  findByActivoOrderByNome(boolean activo);
-			
+	
+	//Page<TipoItem>  findByActivoOrderByNome(boolean activo, Pageable pageable);
+				
 	
 	//NOME -----------------------------------------------------------------------------------------
 	
 
-	Optional<TipoItem> findByNomeIgnoreCaseOrderByNome(String nome);	
+	Optional<TipoItem> findByNomeIgnoreCase(String nome);	
 	
-	Optional<TipoItem> findByNomeIgnoreCaseAndActivoOrderByNome(String nome, boolean activo);
+	Optional<TipoItem> findByNomeIgnoreCaseAndActivo(String nome, boolean activo);
 	
 	//Page<TipoItem>  findByNomeContainingIgnoreCaseAndActivo(String nome, boolean activo, Pageable pageable);
 	

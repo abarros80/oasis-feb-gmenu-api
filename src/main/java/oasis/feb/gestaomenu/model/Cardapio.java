@@ -25,7 +25,7 @@ public class Cardapio implements Serializable{
 	private static final long serialVersionUID = 1L;
 
     
-    private long id;   
+    private Long id;   
     private String nomePt;
     private String nomeIng;
     private String nomeFr;
@@ -47,11 +47,11 @@ public class Cardapio implements Serializable{
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")    
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	

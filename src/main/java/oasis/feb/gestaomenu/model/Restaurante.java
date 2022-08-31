@@ -27,14 +27,15 @@ public class Restaurante  implements Serializable{
 	private static final long serialVersionUID = 1L;
 
     
-    private long id;
+    private Long id;
     private String nome;
     private String telefone;
     private String numeroInterno;
     private String horario;
     private String imagemCapa;
-    private Hotel hotel;
 	private boolean activo;
+	
+	private Hotel hotel;
     
 	@Embedded
     private Log log;
@@ -45,11 +46,11 @@ public class Restaurante  implements Serializable{
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")    
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

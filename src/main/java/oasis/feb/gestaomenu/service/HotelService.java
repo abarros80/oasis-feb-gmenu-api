@@ -8,6 +8,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import oasis.feb.gestaomenu.exception.NewResourceNotFoundException;
 import oasis.feb.gestaomenu.model.Hotel;
 import oasis.feb.gestaomenu.model.Log;
@@ -77,6 +78,16 @@ public class HotelService {
 		return hotelRepository.save(existenteHotel);
 		
 		
+	}
+	
+	@Transactional
+	public void deleteById(Long id)  throws NewResourceNotFoundException {
+		
+		findById(id);
+		
+		hotelRepository.deleteById(id);
+
+				
 	}
 
 }

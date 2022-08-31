@@ -1,5 +1,6 @@
 package oasis.feb.gestaomenu.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -14,60 +15,59 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
-
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-
 import oasis.feb.gestaomenu.exception.NewResourceNotFoundException;
-import oasis.feb.gestaomenu.model.Item;
-import oasis.feb.gestaomenu.model.dto.ItemReqDTO;
-import oasis.feb.gestaomenu.service.ItemService;
+import oasis.feb.gestaomenu.model.TipoItem;
+import oasis.feb.gestaomenu.model.dto.TipoItemReqDTO;
+import oasis.feb.gestaomenu.service.TipoItemService;
 
 @CrossOrigin("*")
 @RepositoryRestController
 @BasePathAwareController
-public class ItemController{
+public class TipoItemController {
+	
+	
 	
 	@Autowired
-	private ItemService itemService;
-	
+	private TipoItemService tipoItemService;
 	
 	
 	
 	//CREATE
 	@ResponseBody
-	@RequestMapping(value = "itens", path="itens", method = RequestMethod.POST, produces = 
+	@RequestMapping(value = "tipoItems", path="tipoItems", method = RequestMethod.POST, produces = 
 	 "application/hal+json")
-    public ResponseEntity<PersistentEntityResource>  create(@Valid @RequestBody ItemReqDTO itemReqDTO, PersistentEntityResourceAssembler assembler){
+    public ResponseEntity<PersistentEntityResource>  create(@Valid @RequestBody TipoItemReqDTO tipoItemReqDTO, PersistentEntityResourceAssembler assembler){
 		
-		Item createdItem = itemService.createFromDTO(itemReqDTO);
+		TipoItem createdTipoItem = tipoItemService.createFromDTO(tipoItemReqDTO);
 		    	
     	HttpHeaders headers = new HttpHeaders();
-        if (createdItem != null && createdItem.getId() != null) {
-            // Caso o item for inserido na BD 
+        if (createdTipoItem != null && createdTipoItem.getId() != null) {
+            // Caso o tipoItem for inserido na BD 
             return new ResponseEntity<>(
-            		assembler.toFullResource(createdItem),
+            		assembler.toFullResource(createdTipoItem),
                     headers,
                     HttpStatus.OK);
         } else {
             // Caso algum valor for NULL
         	return new ResponseEntity<>(
-        			assembler.toFullResource(createdItem), HttpStatus.NO_CONTENT);
+        			assembler.toFullResource(createdTipoItem), HttpStatus.NO_CONTENT);
         }
     }
 	
 	
 	//UPDATE
 	@ResponseBody
-	@RequestMapping(value = "itens/{id}", method = {RequestMethod.PATCH, RequestMethod.PUT}, produces = 
+	@RequestMapping(value = "tipoItems/{id}", method = {RequestMethod.PATCH, RequestMethod.PUT}, produces = 
 	 "application/hal+json")
     public ResponseEntity<PersistentEntityResource>  update(@PathVariable("id") Long id, 
-    		@Valid @RequestBody ItemReqDTO itemReqDTO, PersistentEntityResourceAssembler assembler) throws NewResourceNotFoundException {
+    		@Valid @RequestBody TipoItemReqDTO tipoItemReqDTO, PersistentEntityResourceAssembler assembler) throws NewResourceNotFoundException {
 		
-		Item updatedItem  = itemService.update(id, itemReqDTO);
+		TipoItem updatedItem  = tipoItemService.update(id, tipoItemReqDTO);
 		
 		return new ResponseEntity<>(
         		assembler.toFullResource(updatedItem),
@@ -78,16 +78,20 @@ public class ItemController{
 	
 	//DELETE
 	@ResponseBody
-	@RequestMapping(value = "itens/{id}", method = RequestMethod.DELETE, produces = 
+	@RequestMapping(value = "tipoItems/{id}", method = RequestMethod.DELETE, produces = 
 	 "application/hal+json")
-    public ResponseEntity<PersistentEntityResource>  deleteById(@PathVariable("id") Long id, PersistentEntityResourceAssembler assembler) throws NewResourceNotFoundException {
-		
-		Map<String, Boolean>  msg  = itemService.deleteById(id);
-		
-		return new ResponseEntity<>(
-        		assembler.toFullResource(msg),
-        		new HttpHeaders(),
-                HttpStatus.OK);		
-	}
+    //public ResponseEntity<PersistentEntityResource>  deleteById(@PathVariable("id") Long id, PersistentEntityResourceAssembler assembler) throws NewResourceNotFoundException {
+    public  Map<String, Boolean>  deleteById(@PathVariable("id") Long id) throws NewResourceNotFoundException {
 	
+		
+		tipoItemService.deleteById(id);
+		
+		Map<String, Boolean> response = new HashMap<>();
+        response.put("deleted", Boolean.TRUE);
+        return response;
+		
+
+	}
+		
+
 }

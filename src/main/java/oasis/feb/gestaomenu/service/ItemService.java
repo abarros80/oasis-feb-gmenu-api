@@ -1,6 +1,8 @@
 package oasis.feb.gestaomenu.service;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -76,5 +78,20 @@ public class ItemService {
 		
 		
 	}
-
+	
+	
+	@Transactional
+	public Map<String, Boolean> deleteById(Long id)  throws NewResourceNotFoundException {
+		
+		findById(id);
+		
+		itemRepository.deleteById(id);
+		
+		Map<String, Boolean> response = new HashMap<>();
+        response.put("deleted", Boolean.TRUE);
+        return response;
+				
+	}
+	
+	
 }

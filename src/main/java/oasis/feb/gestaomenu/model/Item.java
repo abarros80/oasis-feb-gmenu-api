@@ -144,7 +144,6 @@ public class Item implements Serializable{
 	
 	
 	//PATH FOTO------------------------------------------------------------
-	
 	@Size(max=300,message="PATH FOTO deve ter no máximo {max} caracteres. Você digitou: " + "${validatedValue}")
 	@Column(name = "foto_path",nullable = true, length=300)
 	public String getFotoPath() {
@@ -237,7 +236,9 @@ public class Item implements Serializable{
 	public void setLog(Log log) {
 		this.log = log;
 	}
-	//HOTEL-------------------------------------------------------
+	
+	//HOTEL----------------------------------------------------------------
+	@NotNull(message = "HOTEL obrigatorio")
 	@ManyToOne
 	@JoinColumn(name = "hotel_id", nullable = false)
 	public Hotel getHotel() {

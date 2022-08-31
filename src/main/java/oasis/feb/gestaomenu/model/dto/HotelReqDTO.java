@@ -17,7 +17,6 @@ public class HotelReqDTO  implements Serializable{
     private Long id;
     
    //NOME-----------------------------------------------------------------
-
   	@NotNull(message = "Campo NOME obrigatorio")
   	@Size(min=3,max=100,message="NOME deve ter no máximo {max} caracteres e no minimo" + " {min} caracteres. Você digitou: "
   	+ "${validatedValue}")
@@ -105,10 +104,6 @@ public class HotelReqDTO  implements Serializable{
 		this.idUser = idUser;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}	
-	
 	
 	
 	
