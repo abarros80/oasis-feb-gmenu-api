@@ -38,7 +38,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     
     //ID
     
-    Optional<Item> findById(long id);
+    Optional<Item> findById(Long id);
     
     //ACTIVO
     
@@ -75,6 +75,16 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 	//DESC FR -----------------------------------------------------------------------------------------
 	
 	Page<Item>  findByDescFrContainingIgnoreCaseAndActivo(String descFr, boolean activo, Pageable pageable);
+	
+	//HOTEL
+	
+	Page<Item> findByHotelUsersId(Long uid, Pageable pageable);
+	
+	//HOTEL CARDAPIO-----------------------------------------------------------------------------------------
+	
+	Page<Item>  findByHotelIdAndItemCardapioCardapioId(Long hid, Long cid, Pageable pageable);
+	
+	Page<Item>  findByHotelIdAndItemCardapioCardapioIdAndActivo(Long hid, Long cid, boolean activo, Pageable pageable);
 	
 	
 	//RELAÇÔES ==========================

@@ -46,21 +46,28 @@ public interface TipoItemRepository extends JpaRepository<TipoItem, Long> {
 	
 	List<TipoItem>  findByActivoOrderByNome(boolean activo);
 	
-	//Page<TipoItem>  findByActivoOrderByNome(boolean activo, Pageable pageable);
+	Page<TipoItem>  findByActivo(boolean activo, Pageable pageable);
 				
 	
 	//NOME -----------------------------------------------------------------------------------------
 	
 
 	Optional<TipoItem> findByNomeIgnoreCase(String nome);	
+	//Optional<TipoItem> findDistinctNomeByNomeIgnoreCaseAndActivo(String nome, boolean activo);
 	
 	Optional<TipoItem> findByNomeIgnoreCaseAndActivo(String nome, boolean activo);
 	
-	//Page<TipoItem>  findByNomeContainingIgnoreCaseAndActivo(String nome, boolean activo, Pageable pageable);
+	Page<TipoItem>  findByNomeContainingIgnoreCaseAndActivo(String nome, boolean activo, Pageable pageable);
 	
-	List<TipoItem>  findByNomeContainingIgnoreCaseAndActivo(String nome, boolean activo);
+	List<TipoItem>  findByNomeContainingIgnoreCaseAndActivoOrderByNome(String nome, boolean activo);
 	
 	Boolean existsByNome(String nome);
+	
+	//ITEM HOTEL
+	
+	List<TipoItem>  findDistinctNomeByActivoAndItensHotelIdOrderByNome(boolean activo, Long hid);
+	
+	//List<TipoItem>  findByActivoAndItensIdOrderByNome(boolean activo, Long hid);
 	
 	//DATA CADASTRO -----------------------------------------------------------------------------------------
 	

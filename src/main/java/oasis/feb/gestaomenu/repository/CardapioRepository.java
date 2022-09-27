@@ -43,6 +43,8 @@ public interface CardapioRepository extends JpaRepository<Cardapio, Long> {
     
     Page<Cardapio> findByActivoAndHotelId(boolean activo, Long hid, Pageable pageable);
     
+    List<Cardapio> findByActivoAndHotelIdOrderByNomePt(boolean activo, Long hid);
+    
 	Page<Cardapio>  findByActivoAndHotelIdAndRestauranteCardapioRestauranteId(boolean activo, Long hid, Long rid, Pageable pageable);
     
     List<Cardapio> findByActivoAndItemCardapioCardapioIdAndItemCardapioCardapioActivoOrderByNomePt(boolean activo, Long cid, boolean cactivo);

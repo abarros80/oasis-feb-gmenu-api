@@ -20,6 +20,8 @@ import org.hibernate.PropertyAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
+
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -30,6 +32,8 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
+
+
 
 
 import oasis.feb.gestaomenu.exception.*;
@@ -102,6 +106,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         ExceptionResponse errorDetails = new ExceptionResponse(LocalDateTime.now(),ex.getLocalizedMessage(), ex.getMessage(), ExceptionUtils.getRootCauseMessage(ex), HttpStatus.BAD_REQUEST.value());
         erros.add(errorDetails);
         return new ResponseEntity<>(erros, HttpStatus.BAD_REQUEST);
+	}
+    
+    
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ResponseEntity<?> handleMaxSizeException (MaxUploadSizeExceededException ex, WebRequest request) {
+        List<ExceptionResponse> erros = new ArrayList<>();
+        ExceptionResponse errorDetails = new ExceptionResponse(LocalDateTime.now(),ex.getLocalizedMessage(), ex.getMessage(), ExceptionUtils.getRootCauseMessage(ex), HttpStatus.EXPECTATION_FAILED.value());
+        erros.add(errorDetails);
+        return new ResponseEntity<>(erros, HttpStatus.EXPECTATION_FAILED);
 	}
     
     

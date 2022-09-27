@@ -29,10 +29,11 @@ public class Cardapio implements Serializable{
     private String nomePt;
     private String nomeIng;
     private String nomeFr;
-    private String codigoReduzido;
-    private Hotel hotel;    
+    private String codigoReduzido;      
     private boolean activo;
     private String imagem;
+    
+    private Hotel hotel; 
     
     @Embedded
     private Log log;
