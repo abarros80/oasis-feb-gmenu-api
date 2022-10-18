@@ -39,7 +39,7 @@ public class TipoItemController {
 	
 	//CREATE
 	@ResponseBody
-	@RequestMapping(value = "tipoItems", path="tipoItems", method = RequestMethod.POST, produces = 
+	@RequestMapping(value = "tipoitens", path="tipoitens", method = RequestMethod.POST, produces = 
 	 "application/hal+json")
     public ResponseEntity<PersistentEntityResource>  create(@Valid @RequestBody TipoItemReqDTO tipoItemReqDTO, PersistentEntityResourceAssembler assembler){
 		
@@ -62,7 +62,7 @@ public class TipoItemController {
 	
 	//UPDATE
 	@ResponseBody
-	@RequestMapping(value = "tipoItems/{id}", method = {RequestMethod.PATCH, RequestMethod.PUT}, produces = 
+	@RequestMapping(value = "tipoitens/{id}", method = {RequestMethod.PATCH, RequestMethod.PUT}, produces = 
 	 "application/hal+json")
     public ResponseEntity<PersistentEntityResource>  update(@PathVariable("id") Long id, 
     		@Valid @RequestBody TipoItemReqDTO tipoItemReqDTO, PersistentEntityResourceAssembler assembler) throws NewResourceNotFoundException {
@@ -78,7 +78,7 @@ public class TipoItemController {
 	
 	//DELETE
 	@ResponseBody
-	@RequestMapping(value = "tipoItems/{id}", method = RequestMethod.DELETE, produces = 
+	@RequestMapping(value = "tipoitens/{id}", method = RequestMethod.DELETE, produces = 
 	 "application/hal+json")
     //public ResponseEntity<PersistentEntityResource>  deleteById(@PathVariable("id") Long id, PersistentEntityResourceAssembler assembler) throws NewResourceNotFoundException {
     public  Map<String, Boolean>  deleteById(@PathVariable("id") Long id) throws NewResourceNotFoundException {
@@ -90,7 +90,6 @@ public class TipoItemController {
         response.put("deleted", Boolean.TRUE);
         return response;
 		
-
 	}
 		
 

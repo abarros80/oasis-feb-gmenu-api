@@ -30,7 +30,6 @@ public class CardapioService {
 	public Cardapio create(Cardapio obj){
 		obj.setId(null);
 		return cardapioRepository.save(obj);
-		
 	}
 	
 	@Transactional
