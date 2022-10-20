@@ -32,7 +32,7 @@ public class User  implements Serializable{
     private Set<Role> roles;
 
     //BIDERECIONAL
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER/*, cascade = CascadeType.ALL*/)
     @JoinTable(name = "user_hotels",
         joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "hotel_id", referencedColumnName = "id"))

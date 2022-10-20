@@ -1,5 +1,6 @@
 package oasis.feb.gestaomenu.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -80,14 +81,14 @@ public class ItemController{
 	@ResponseBody
 	@RequestMapping(value = "itens/{id}", method = RequestMethod.DELETE, produces = 
 	 "application/hal+json")
-    public ResponseEntity<PersistentEntityResource>  deleteById(@PathVariable("id") Long id, PersistentEntityResourceAssembler assembler) throws NewResourceNotFoundException {
+    //public ResponseEntity<PersistentEntityResource>  deleteById(@PathVariable("id") Long id, PersistentEntityResourceAssembler assembler) throws NewResourceNotFoundException {
+    public  Map<String, Boolean>  deleteById(@PathVariable("id") Long id) throws NewResourceNotFoundException {
 		
-		Map<String, Boolean>  msg  = itemService.deleteById(id);
+		itemService.deleteById(id);
 		
-		return new ResponseEntity<>(
-        		assembler.toFullResource(msg),
-        		new HttpHeaders(),
-                HttpStatus.OK);		
+		Map<String, Boolean> response = new HashMap<>();
+        response.put("deleted", Boolean.TRUE);
+        return response;
 	}
 	
 }
